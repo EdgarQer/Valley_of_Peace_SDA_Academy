@@ -1,0 +1,511 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Google Sans', Roboto, system-ui, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: white;
+  overflow-x: hidden;
+}
+
+.logo {
+  width: 300px;        
+  object-fit: cover;    
+}
+
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.muted {
+  color: slategray;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Google Sans', Roboto, system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 16px;
+  background: royalblue;
+  color: white;
+  border: none;
+  border-radius: 12px;            
+  font-family: 'Google Sans', Roboto, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
+.main-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: transparent;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 15px 0;
+}
+
+.main-nav.scrolled {
+  background: white;
+  color: darkslategray;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  padding: 10px 0;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Google Sans', Roboto, system-ui, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;           
+  object-fit: cover;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 24px;                        
+  font-weight: 500;
+}
+
+.nav-item {
+  display: block;
+}
+
+.nav-item a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  opacity: 0.95;
+  transition: opacity 0.2s;
+}
+
+.nav-item a:hover {
+  opacity: 1;
+}
+
+.nav-item a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  height: 2px;
+  width: 0;
+  background: royalblue;           
+  transition: width 0.3s ease;
+}
+
+.nav-item a:hover::after {
+  width: 100%;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  background: currentColor;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { 
+    display: block; 
+  }
+
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.98);
+    color: darkslategray;
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0;
+    gap: 24px;                     
+    transition: left 0.3s ease;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu.active { 
+    left: 0; 
+  }
+}
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.slides {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 0.5s, transform 2s;
+}
+
+.slide.is-active { 
+  opacity: 1; 
+}
+.slide.zooming   { 
+  transform: scale(1.05); 
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35));
+}
+
+.hero-center {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  text-align: center;
+  color: white;
+  padding: 0 16px;
+}
+
+.hero-title {
+  font-size: clamp(28px, 5.5vw, 64px);
+  font-weight: 800;
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;                       
+}
+
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 0;
+  background: white;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.hero-dot.is-active {
+  background: royalblue;
+  transform: scale(1.12);
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;                        
+  align-items: center;
+}
+
+.about-img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 12px;              
+}
+
+.about-text h2 {
+  margin: 0 0 12px;
+  font-size: 34px;
+}
+
+.about-text p {
+  line-height: 1.7;
+}
+
+.stats-box {
+  background: whitesmoke;          
+  border: 1px solid gainsboro;       
+  border-radius: 12px;               
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+}
+
+.stat {
+  padding: 42px 28px;
+  text-align: center;
+  border-right: 1px solid gainsboro;
+}
+
+.stat:last-child { 
+  border-right: none; 
+}
+
+.stat-number {
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.stat-label {
+  color: slategray;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.map-embed {
+  border: 1px solid gainsboro;
+  border-radius: 12px;              
+  overflow: hidden;
+}
+
+.map-embed iframe {
+  width: 100%;
+  height: 420px;
+  display: block;
+  border: 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;                        
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 12px;              
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;                      
+  margin-bottom: 16px;
+}
+
+.card {
+  background: white;
+  border: 1px solid gainsboro;
+  border-radius: 12px;               
+  padding: 16px;
+}
+
+.contact-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;                    
+}
+
+.contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;                          
+  align-items: start;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;                        
+}
+
+.field--full { 
+  grid-column: 1 / -1; 
+}
+
+label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: slategray;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid gainsboro;
+  border-radius: 12px;             
+  font: inherit;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.checkbox {
+  display: flex;
+  gap: 10px;                      
+  align-items: flex-start;
+}
+
+.contact-form .actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;                          
+}
+
+.contact-section { 
+  align-items: start; 
+}
+
+.subscribe-box {
+  background: aliceblue;          
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+}
+
+.subscribe-form {
+  margin-top: 16px;
+}
+
+.subscribe-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid gainsboro;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+.subscribe-input .icon {
+  padding: 0 10px;
+  color: slategray;
+}
+
+.subscribe-input input {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  font: inherit;
+  outline: none;
+}
+
+.subscribe-input button {
+  background: royalblue;
+  color: white;
+  border: none;
+  padding: 20px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subscribe-input button:hover {
+  filter: brightness(0.9);
+}
+
+.subscribe-card{
+  background: rgba(65, 105, 225, 0.06); 
+  border-color: rgba(0,0,0,.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.06);
+}
+
+.main-footer {
+  padding: 24px 20px;
+  color: slategray;
+  border-top: 1px solid gainsboro;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .about-container { 
+    grid-template-columns: 1fr; 
+  }
+  .about-img { 
+    height: 320px; 
+  }
+  .contact-section { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-box { 
+    grid-template-columns: 1fr; 
+  }
+
+  .stat {
+    border-right: none;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .stat:last-child { 
+    border-bottom: none; 
+  }
+
+  .contact-cards { 
+    grid-template-columns: 1fr; 
+  }
+  .contact-form  { 
+    grid-template-columns: 1fr; 
+  }
+}
